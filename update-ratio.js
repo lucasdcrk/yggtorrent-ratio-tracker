@@ -5,7 +5,7 @@ const config = require('./config');
 
 axios.get(config.profileUrl, {
     headers: {
-        Cookie: 'ca_=affe4d12c7e560e5266ec5ef309c268f'
+        Cookie: 'ca_=affe4d12c7e560e5266ec5ef309c268f; ygg_=s4k2co99e68e7nvc3rmrmh8jj1viq0f8'
     }
 })
     .then(response => {
