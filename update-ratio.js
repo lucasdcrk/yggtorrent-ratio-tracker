@@ -12,7 +12,7 @@ cloudscraper.get(config.profileUrl)
             'date': Date.now(),
             'upload': upload,
             'download': download,
-            'ratio': upload / download
+            'ratio': (upload / download).toFixed(4)
         };
 
         if (fs.existsSync(config.outputFile)) {
