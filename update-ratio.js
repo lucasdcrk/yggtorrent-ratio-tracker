@@ -1,5 +1,4 @@
 const fs = require('fs');
-const axios = require('axios');
 const cloudscraper = require('cloudscraper');
 const cheerio = require('cheerio');
 const config = require('./config');
