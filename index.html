@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>YggTorrent Ratio Tracker</title>
+</head>
+<body>
+    <div id="ratio-chart"></div>
+    <div id="transfer-chart"></div>
+
+    <small>Développé par <a href="https://lucas.decrock.me">Lucas Decrock</a></small>
+
+    <script src="https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.iife.js"></script>
+    <script src="https://cdn.jsdelivr.net/combine/npm/moment@2,npm/moment@2/locale/fr.min.js"></script>
+    <script>
+        fetch('values.json')
+            .then(values => values.json())
+            .then(values => {
+                const ratio = {
+                    labels: [],
+                    datasets: [
+                        {
+                            name: "Ratio", type: "bar",
+                            values: []
+                        }
+                    ],
+                };
+
+                const transfer = {
+                    labels: [],
+                    datasets: [
+                        {
+                            name: "Upload", type: "bar",
+                            values: []
+                        },
+                        {
+                            name: "Download", type: "bar",
+                            values: []
+                        }
+                    ],
+                };
+
+                values.forEach(function(el) {
+                    ratio.labels.push(moment(el.date).fromNow());
+                    ratio.datasets[0].values.push(el.ratio);
+
+                    transfer.labels.push(moment(el.date).fromNow());
+                    transfer.datasets[0].values.push(el.upload);
+                    transfer.datasets[1].values.push(el.download);
+                });
+
+                const ratioChart = new frappe.Chart("#ratio-chart", {
+                    title: "Ratio",
+                    data: ratio,
+                    type: 'line',
+                    height: 400,
+                    isNavigable: true
+                });
+
+                const transferChart = new frappe.Chart("#transfer-chart", {
+                    title: "Upload & Download",
+                    data: transfer,
+                    type: 'line',
+                    height: 400,
+                    colors: ['green', 'red']
+                });
+            })
+            .catch(error => {
+                throw error
+            });
+    </script>
+</body>
+</html>
