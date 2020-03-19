@@ -1,15 +1,12 @@
 const fs = require('fs');
 const axios = require('axios');
+const cloudscraper = require('cloudscraper');
 const cheerio = require('cheerio');
 const config = require('./config');
 
-axios.get(config.profileUrl, {
-    headers: {
-        Cookie: 'ca_=affe4d12c7e560e5266ec5ef309c268f; ygg_=s4k2co99e68e7nvc3rmrmh8jj1viq0f8'
-    }
-})
-    .then(response => {
-        let $ = cheerio.load(response.data);
+cloudscraper.get(config.profileUrl)
+    .then((response) => {
+        let $ = cheerio.load(response);
         let upload = parseFloat($('.icon.pull-left>strong[style*="color:#3dd806"]').html());
         let download = parseFloat($('.icon.pull-left>strong[style*="color:#ea5656"]').html());
         let record = {
